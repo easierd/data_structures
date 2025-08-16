@@ -23,6 +23,21 @@ List *list_prepend(List**, void*);
 
 
 /*
+ * Return a pointer to the node containing
+ * the searched element, NULL if it's not present
+ */
+List *list_search(List*, void*);
+
+
+/*
+ * Remove an element from the List.
+ * Return the removed element if present,
+ * NULL otherwise
+ */
+void list_remove(List** , void*);
+
+
+/*
  * Delete a List 
  *
  * The given list must have been allocated 
