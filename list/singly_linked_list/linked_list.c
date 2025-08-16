@@ -31,7 +31,7 @@ _Bool list_prepend(List **l, void* item) {
 }
 
 
-List *list_search(List *l, const void *item) {
+List *list_find(List *l, const void *item) {
     while (l) {
         if (l->item == item) {
             return l;

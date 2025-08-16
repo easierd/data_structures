@@ -26,7 +26,7 @@ _Bool list_prepend(List**, void*);
  * Return a pointer to the node containing
  * the searched element, NULL if it's not present
  */
-List *list_search(List*, const void*);
+List *list_find(List*, const void*);
 
 
 /*
@@ -59,7 +59,7 @@ List *list_get(List*, void **head);
 /*
  * Delete a List 
  *
- * The given list must have been allocated 
+ * The given list must have been created
  * by calling list_new()
  */
 void list_delete(List*);

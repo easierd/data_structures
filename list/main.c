@@ -13,7 +13,7 @@ int main(void) {
     list_prepend(&l, NULL);
     assert(!list_empty(l));
 
-    List *la = list_search(l, &a);
+    List *la = list_find(l, &a);
     assert(la != NULL);
 
     void *item;
