@@ -3,6 +3,7 @@
  * a singly linked list
  */
 #include<stdlib.h>
+#include<stddef.h>
 
 #include "../list.h"
 
@@ -30,7 +31,7 @@ List *list_prepend(List **l, void* item) {
 }
 
 
-List *list_search(List *l, void *item) {
+List *list_search(List *l, const void *item) {
     while (l) {
         if (l->item == item) {
             return l;
@@ -46,32 +47,40 @@ List *list_search(List *l, void *item) {
  * node to be removed in removee.
  * NULL if the element is not present
  */
-List *find_predecessor(List *l, void *item, List **removee) {
-    List *predecessor = NULL;
+static List *find_predecessor(List *l, List *node) {
     while (l) {
-       if(l->item == item) {
-           *removee = l;
-           return predecessor;
+       if(l->next == node) {
+           return l;
        } 
-       predecessor = l;
        l = l->next;
     }
-    *removee = NULL;
     return NULL;
 }
 
 
-void list_remove(List **l, void* item) {
-    List *removee;
-    List* predecessor = find_predecessor(*l, item, &removee);
-    if (removee) {
-        if (predecessor) {
-            predecessor->next = removee->next;
-        } else {
-            *l = removee->next;
-        }
-        free(removee);
+void list_remove(List **l, List *node) {
+    List* predecessor = find_predecessor(*l, node);
+    if (predecessor) {
+        predecessor->next = node->next;
+    } else {
+        *l = node->next;
     }
+    free(node);
+}
+
+
+_Bool list_empty(const List *l) {
+    return l == NULL;
+}
+
+
+List *list_get(List *l, void **head) {
+    if (l == NULL) {
+        *head = NULL;
+    } else {
+        *head = l->item;
+    }
+    return l;
 }
 
 

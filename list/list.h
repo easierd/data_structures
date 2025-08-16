@@ -26,15 +26,31 @@ List *list_prepend(List**, void*);
  * Return a pointer to the node containing
  * the searched element, NULL if it's not present
  */
-List *list_search(List*, void*);
+List *list_search(List*, const void*);
 
 
 /*
- * Remove an element from the List.
- * Return the removed element if present,
- * NULL otherwise
+ * Remove the given node from the List and free the 
+ * pointer.
+ *
+ * N.B: a search to check whether the list contains the node
+ * is not guaranteed - if the node is not inside the list 
+ * it's undefined behavior.
  */
-void list_remove(List** , void*);
+void list_remove(List** , List*);
+
+
+/*
+ * Return true if the list is empty
+ */
+_Bool list_empty(const List*);
+
+
+/*
+ * Store a pointer to the head item in `*head` and return the List
+ * If the list is empty, NULL is stored in `*head` and return NULL
+ */
+List *list_get(List*, void **head);
 
 
 /*
