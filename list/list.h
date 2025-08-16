@@ -5,9 +5,9 @@
 typedef struct List List;
 
 /*
- * Allocate and initialize a List.
+ * Return a newly created List.
  *
- * Each List that is allocated with this function
+ * Each List that is created with this function
  * must be deleted with a call to list_delete
  */
 List *list_new();
