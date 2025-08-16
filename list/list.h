@@ -16,10 +16,10 @@ List *list_new();
 /*
  * Prepend a new element to the List.
  *
- * Returns the list if the operation is successful, 
- * NULL otherwise.
+ * Return true if the operation is successful
+ * false otherwise
  */
-List *list_prepend(List**, void*);
+_Bool list_prepend(List**, void*);
 
 
 /*
@@ -47,9 +47,12 @@ _Bool list_empty(const List*);
 
 
 /*
- * Store a pointer to the head item in `*head` and return the List
- * If the list is empty, NULL is stored in `*head` and return NULL
+ * Retrieve the item stored at this node.
+ *
+ * Returns the node itself if it exists, NULL otherwise.
+ * The item (which may itself be NULL) is stored in *head.
  */
+
 List *list_get(List*, void **head);
 
 

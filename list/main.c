@@ -7,13 +7,17 @@
 int main(void) {
     List *l = list_new();
     assert(list_empty(l));
+
     int a = 324;
-    l = list_prepend(&l, &a);
+    list_prepend(&l, &a);
+    list_prepend(&l, NULL);
     assert(!list_empty(l));
 
     List *la = list_search(l, &a);
+    assert(la != NULL);
+
     void *item;
-    assert(list_get(la, &item) != NULL);
+    list_get(la, &item);
     int value = *((int*)item);
     assert(value == a);
 

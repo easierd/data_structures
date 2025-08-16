@@ -19,15 +19,15 @@ List *list_new() {
 }
 
 
-List *list_prepend(List **l, void* item) {
+_Bool list_prepend(List **l, void* item) {
     List *p = malloc(sizeof(List));
     if (p == NULL) {
-        return NULL;
+        return 0;
     }
     p->item = item;
     p->next = *l;
     *l = p;
-    return *l;
+    return 1;
 }
 
 
