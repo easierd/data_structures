@@ -4,10 +4,10 @@
  */
 #include<stdlib.h>
 
-#include "list.h"
+#include "../list.h"
 
 
-struct List {
+struct List{
     void *item;
     struct List* next;
 };
@@ -34,7 +34,7 @@ void list_delete(List *l) {
     while (l != NULL) {
         List *next = l->next;
         free(l);
-
         l = next;
     }
 }
+
