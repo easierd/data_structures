@@ -2,6 +2,9 @@
  * ADT Stack interface
  */
 
+#pragma once
+
+
 typedef struct Stack Stack;
 
 
@@ -43,8 +46,4 @@ _Bool stack_push(Stack *, int elem);
  * false otherwise
  */
 _Bool stack_pop(Stack *, int *elem);
-
-
-
-
 
