@@ -22,6 +22,7 @@ struct Stack {
 Stack *stack_new() {
     Stack *stack = malloc(sizeof(Stack));
     stack->sz = 0;
+    return stack;
 }
 
 
