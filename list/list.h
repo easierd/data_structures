@@ -61,6 +61,9 @@ List *list_get(List*, void **head);
  *
  * The given list must have been created
  * by calling list_new()
+ *
+ * If free_item is not NULL it's used to free 
+ * the items of each node
  */
-void list_delete(List*);
+void list_delete(List*, void (*free_item)(void*));
 

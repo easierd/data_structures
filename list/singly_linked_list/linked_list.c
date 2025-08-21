@@ -84,9 +84,12 @@ List *list_get(List *l, void **head) {
 }
 
 
-void list_delete(List *l) {
+void list_delete(List *l, void (*free_item)(void*)) {
     while (l != NULL) {
         List *next = l->next;
+        if (free_item != NULL) {
+            free_item(l->item);
+        }
         free(l);
         l = next;
     }
