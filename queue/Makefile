@@ -1,10 +1,14 @@
 .PHONY: clean
+CFLAGS = -Wall -Wextra -fsanitize=address
 
-queue.o: queue.c
-	gcc -c -Wall -Wextra -fsanitize=address queue.c
+queue.o: queue.c queue.h
+	gcc $(CFLAGS) -c queue.c
 
-main: queue.o main.c
-	gcc -o main -Wall -Wextra -fsanitize=address main.c queue.o
+main.o: main.c queue.h
+	gcc ${CFLAGS} -c main.c
+
+main: main.o queue.o
+	gcc ${CFLAGS} -o main main.o queue.o
 
 
 clean:
