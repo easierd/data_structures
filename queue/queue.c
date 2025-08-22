@@ -13,7 +13,14 @@ struct queue {
 
 queue* queue_new(size_t sz) {
     queue *q = malloc(sizeof(queue));
+    if (q == NULL) {
+        return NULL;
+    }
     q->items = malloc(sizeof(void*) * sz);
+    if (q->items == NULL) {
+        free(q);
+        return NULL;
+    }
     q->head = 0;
     q->tail = 0;
     q->sz = sz;
