@@ -29,12 +29,12 @@ queue* queue_new(size_t sz) {
 }
 
 
-bool queue_empty(queue *q) {
+bool queue_empty(const queue *q) {
     return q->head == q->tail;
 }
 
 
-bool queue_full(queue *q) {
+bool queue_full(const queue *q) {
     return q->head == (q->tail + 1) % q->sz;
 }
 

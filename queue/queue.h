@@ -14,9 +14,9 @@ typedef struct queue queue;
 
 queue* queue_new(size_t);
 
-bool queue_empty(queue*);
+bool queue_empty(const queue*);
 
-bool queue_full(queue*);
+bool queue_full(const queue*);
 
 bool queue_enqueue(queue*, void*);
 
