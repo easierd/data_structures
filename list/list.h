@@ -3,6 +3,7 @@
  */
 
 typedef struct List List;
+typedef List Node;
 
 /*
  * Return a newly created List.
@@ -26,7 +27,7 @@ _Bool list_prepend(List**, void*);
  * Return a pointer to the node containing
  * the searched element, NULL if it's not present
  */
-List *list_find(List*, const void*);
+Node *list_find(List*, const void*);
 
 
 /*
@@ -37,7 +38,7 @@ List *list_find(List*, const void*);
  * is not guaranteed - if the node is not inside the list 
  * it's undefined behavior.
  */
-void list_remove(List** , List*);
+void list_remove(List** , Node*);
 
 
 /*
