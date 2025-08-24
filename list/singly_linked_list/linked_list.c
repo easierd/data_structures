@@ -31,7 +31,7 @@ bool list_insert(List **l, void* item) {
 }
 
 
-List *list_find(List *l, const void *item) {
+List *list_find(List *l, void *item) {
     while (l) {
         if (l->item == item) {
             return l;

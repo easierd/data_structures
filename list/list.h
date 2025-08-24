@@ -30,7 +30,7 @@ bool list_insert(List**, void*);
  * Return a pointer to the node containing
  * the searched element, NULL if it's not present
  */
-Node *list_find(List*, const void*);
+Node *list_find(List*, void*);
 
 
 /*

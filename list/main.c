@@ -10,8 +10,8 @@ int main(void) {
     assert(list_empty(l));
 
     char *a = calloc(10, 1);
-    list_prepend(&l, a);
-    list_prepend(&l, NULL);
+    list_insert(&l, a);
+    list_insert(&l, NULL);
     assert(!list_empty(l));
 
     List *la = list_find(l, a);
