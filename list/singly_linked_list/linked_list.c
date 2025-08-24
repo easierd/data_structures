@@ -19,15 +19,15 @@ List *list_new() {
 }
 
 
-_Bool list_prepend(List **l, void* item) {
+bool list_insert(List **l, void* item) {
     List *p = malloc(sizeof(List));
     if (p == NULL) {
-        return 0;
+        return false;
     }
     p->item = item;
     p->next = *l;
     *l = p;
-    return 1;
+    return true;
 }
 
 
@@ -69,7 +69,7 @@ void list_remove(List **l, List *node) {
 }
 
 
-_Bool list_empty(const List *l) {
+bool list_empty(const List *l) {
     return l == NULL;
 }
 

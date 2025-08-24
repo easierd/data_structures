@@ -2,6 +2,9 @@
  * ADT List definition interface
  */
 
+#include <stdbool.h>
+
+
 typedef struct List List;
 typedef List Node;
 
@@ -20,7 +23,7 @@ List *list_new();
  * Return true if the operation is successful
  * false otherwise
  */
-_Bool list_prepend(List**, void*);
+bool list_insert(List**, void*);
 
 
 /*
@@ -44,7 +47,7 @@ void list_remove(List** , Node*);
 /*
  * Return true if the list is empty
  */
-_Bool list_empty(const List*);
+bool list_empty(const List*);
 
 
 /*
