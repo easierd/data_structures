@@ -24,14 +24,14 @@ Tree *tree_new(void*);
  * Return the left child of the given Tree.
  * If the child is not present return NULL
  */
-Tree *tree_left(Tree *);
+Tree *tree_left(const Tree *);
 
 
 /*
  * Return the right child of the given Tree.
  * If the child is not present return NULL
  */
-Tree *tree_right(Tree *);
+Tree *tree_right(const Tree *);
 
 
 /*
@@ -79,7 +79,7 @@ Tree *tree_remove_right(Tree*);
  * Return the item in the root of the given tree.
  * If the argument is NULL, return NULL.
  */
-void *tree_read(Tree*);
+void *tree_read(const Tree*);
 
 
 /*

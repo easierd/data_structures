@@ -27,7 +27,7 @@ Tree *tree_new(void *item) {
 }
 
 
-Tree *tree_left(Tree *t) {
+Tree *tree_left(const Tree *t) {
     if (t == NULL) {
         return NULL;
     }
@@ -36,7 +36,7 @@ Tree *tree_left(Tree *t) {
 }
 
 
-Tree *tree_right(Tree *t) {
+Tree *tree_right(const Tree *t) {
     if (t == NULL) {
         return NULL;
     }
@@ -99,7 +99,7 @@ Tree *tree_remove_right(Tree *t) {
 }
 
 
-void *tree_read(Tree *t) {
+void *tree_read(const Tree *t) {
     if (t == NULL) {
         return NULL;
     }
