@@ -73,11 +73,7 @@ BSTree *bs_tree_new(int (*compare)(void *, void*)) {
 }
 
 
-void bs_tree_insert(BSTree *tree, BSTreeNode** node_ref) {
-    // the tree takes ownership of the node
-    BSTreeNode *node = *node_ref;
-    *node_ref = NULL;
-
+void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
     BSTreeNode *cur = tree->root;
     BSTreeNode *cur_parent = NULL;
     while (cur) {

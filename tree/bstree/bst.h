@@ -23,7 +23,7 @@ typedef struct BSTree BSTree;
 BSTree *bs_tree_new(int (*compare)(void*, void*));
 
 
-void bs_tree_insert(BSTree*, BSTreeNode**);
+void bs_tree_insert(BSTree*, BSTreeNode*);
 
 
 BSTreeNode *bs_tree_remove(BSTree*, BSTreeNode*);
