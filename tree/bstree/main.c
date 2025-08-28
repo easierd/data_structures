@@ -19,15 +19,23 @@ int main(void) {
     int c = -330;
     int d = 0;
 
+    BSTreeNode *n1 = bs_tree_node_new(&a, NULL);
+    BSTreeNode *n2 = bs_tree_node_new(&b, NULL);
+    BSTreeNode *n3 = bs_tree_node_new(&c, NULL);
+    BSTreeNode *n4 = bs_tree_node_new(&d, NULL);
+
     BSTree *bst = bs_tree_new((int (*)(void *, void*))int_cmp);
 
-    bs_tree_insert(bst, &a);
-    bs_tree_insert(bst, &b);
-    bs_tree_insert(bst, &c);
-    bs_tree_insert(bst, &d);
+    // the nodes shall be moved 
+    bs_tree_insert(bst, &n1);
+    bs_tree_insert(bst, &n2);
+    bs_tree_insert(bst, &n3);
+    bs_tree_insert(bst, &n4);
 
     bs_tree_inorder_walk(bst,(void (*)(void *))print_int);
     putchar('\n');
 
-    bs_tree_delete(bst, NULL);
+    bs_tree_node_delete(n1);
+
+    bs_tree_delete(bst);
 }

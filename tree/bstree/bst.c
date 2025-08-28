@@ -2,15 +2,17 @@
 
 #include "bst.h"
 
-typedef struct BSTreeNode {
+struct BSTreeNode {
     void *item;
     struct BSTreeNode *parent;
     struct BSTreeNode *left;
     struct BSTreeNode *right;
-} BSTreeNode;
+    
+    void (*free_callback)(void*);
+};
 
 
-BSTreeNode *bs_tree_node_new(void *item) {
+BSTreeNode *bs_tree_node_new(void *item, void (*free_callback)(void*)) {
     BSTreeNode *node = malloc(sizeof(BSTreeNode));
     if (node == NULL) {
         return NULL;
@@ -20,6 +22,8 @@ BSTreeNode *bs_tree_node_new(void *item) {
     node->parent = NULL;
     node->left = NULL;
     node->right = NULL;
+
+    node->free_callback = free_callback;
 
     return node;
 }
@@ -34,14 +38,14 @@ void bs_tree_node_inorder_walk(BSTreeNode *node, void (*procedure)(void *)) {
 }
 
 
-void bs_tree_node_delete(BSTreeNode *node, void (*free_callback)(void *)) {
+void bs_tree_node_delete(BSTreeNode *node) {
     if (node != NULL) {
 
-        bs_tree_node_delete(node->left, free_callback);
-        bs_tree_node_delete(node->right, free_callback);
+        bs_tree_node_delete(node->left);
+        bs_tree_node_delete(node->right);
 
-        if (free_callback != NULL) {
-            free_callback(node->item);
+        if (node->free_callback != NULL) {
+            node->free_callback(node->item);
         }
 
         free(node);
@@ -69,15 +73,18 @@ BSTree *bs_tree_new(int (*compare)(void *, void*)) {
 }
 
 
-void bs_tree_insert(BSTree *tree, void *item) {
-    BSTreeNode *node = bs_tree_node_new(item);
+void bs_tree_insert(BSTree *tree, BSTreeNode** node_ref) {
+    // the tree takes ownership of the node
+    BSTreeNode *node = *node_ref;
+    *node_ref = NULL;
+
     BSTreeNode *cur = tree->root;
     BSTreeNode *cur_parent = NULL;
     while (cur) {
         cur_parent = cur;
 
-        // item < cur->item
-        if (tree->compare(item, cur->item) > 0) {
+        // node->item < cur->item
+        if (tree->compare(node->item, cur->item) > 0) {
             cur = cur->left;
         } else {
             cur = cur->right;
@@ -85,7 +92,7 @@ void bs_tree_insert(BSTree *tree, void *item) {
     }
     if (cur_parent == NULL) {
         tree->root = node;
-    } else if (tree->compare(item, cur_parent->item) > 0) {
+    } else if (tree->compare(node->item, cur_parent->item) > 0) {
        cur_parent->left = node;
     } else {
         cur_parent->right = node;
@@ -98,7 +105,7 @@ void bs_tree_inorder_walk(BSTree *tree, void (*procedure)(void *)) {
 }
 
 
-void bs_tree_delete(BSTree *bst, void (*free_callback)(void*)) {
-    bs_tree_node_delete(bst->root, free_callback);
+void bs_tree_delete(BSTree *bst) {
+    bs_tree_node_delete(bst->root);
     free(bst);
 }  

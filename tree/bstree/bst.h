@@ -4,6 +4,13 @@
 
 #pragma once
 
+typedef struct BSTreeNode BSTreeNode;
+
+BSTreeNode *bs_tree_node_new(void *, void (*free_callback)(void *));
+
+void bs_tree_node_delete(BSTreeNode *);
+
+
 typedef struct BSTree BSTree;
 
 
@@ -16,10 +23,13 @@ typedef struct BSTree BSTree;
 BSTree *bs_tree_new(int (*compare)(void*, void*));
 
 
-void bs_tree_insert(BSTree *, void *);
+void bs_tree_insert(BSTree*, BSTreeNode**);
+
+
+BSTreeNode *bs_tree_remove(BSTree*, BSTreeNode*);
 
 
 void bs_tree_inorder_walk(BSTree *, void (*procedure)(void *));
 
 
-void bs_tree_delete(BSTree *, void (*free_callback)(void*));
+void bs_tree_delete(BSTree*);
