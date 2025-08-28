@@ -32,7 +32,9 @@ int main(void) {
     bs_tree_insert(bst, n4);
 
 
-    bs_tree_remove(bst, n4);
+    bs_tree_remove(bst, n3);
+    bs_tree_remove(bst, n2);
+    bs_tree_remove(bst, n2);
 
 
     bs_tree_inorder_walk(bst,(void (*)(void *))print_int);

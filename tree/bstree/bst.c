@@ -143,6 +143,7 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
     } else {
         cur_parent->right = node;
     }
+    node->parent = cur_parent;
 }
 
 
