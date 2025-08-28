@@ -29,6 +29,24 @@ BSTreeNode *bs_tree_node_new(void *item, void (*free_callback)(void*)) {
 }
 
 
+BSTreeNode *bs_tree_node_min(BSTreeNode *node) {
+    while (node->left != NULL) {
+        node = node->left;
+    }
+
+    return node;
+}
+
+
+BSTreeNode *bs_tree_node_max(BSTreeNode *node) {
+    while (node->right != NULL) {
+        node = node->right;
+    }
+
+    return node;
+}
+
+
 void bs_tree_node_inorder_walk(BSTreeNode *node, void (*procedure)(void *)) {
     if (node != NULL) {
         bs_tree_node_inorder_walk(node->left, procedure);
@@ -93,6 +111,22 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
     } else {
         cur_parent->right = node;
     }
+}
+
+
+/*
+ * replace node n as children of n->parent with m
+ */
+void bs_tree_transpliant(BSTree *tree, BSTreeNode *n, BSTreeNode *m) {
+    if (n->parent == NULL) {
+        tree->root = m;
+    } else if (n == n->parent->left) {
+        n->parent->left = m;
+    } else {
+        n->parent->right = m;
+    }
+
+    m->parent = n->parent;
 }
 
 
