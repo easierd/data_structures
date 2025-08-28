@@ -7,5 +7,9 @@ bst.o: bst.c bst.h
 main: main.c bst.o
 	gcc -o main $(GCC_OPTIONS) main.c bst.o
 
+debug: GCC_OPTIONS += -g
+debug: main
+	gdb ./main
+
 clean:
 	rm main *.o

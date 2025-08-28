@@ -29,6 +29,7 @@ BSTreeNode *bs_tree_node_new(void *item, void (*free_callback)(void*)) {
 }
 
 
+
 BSTreeNode *bs_tree_node_min(BSTreeNode *node) {
     while (node->left != NULL) {
         node = node->left;
@@ -44,6 +45,34 @@ BSTreeNode *bs_tree_node_max(BSTreeNode *node) {
     }
 
     return node;
+}
+
+
+BSTreeNode *bs_tree_node_successor(BSTreeNode *node) {
+    if (node->right != NULL) {
+        return bs_tree_node_min(node->right);
+    } 
+    BSTreeNode *parent = node->parent;
+    while (parent != NULL && node == parent->right) {
+        node = parent;
+        parent = parent->parent;
+    }
+
+    return parent;
+}
+
+
+BSTreeNode *bs_tree_node_predecessor(BSTreeNode *node) {
+    if (node->left != NULL) {
+        return bs_tree_node_max(node->left);
+    }
+    BSTreeNode *parent = node->parent;
+    while (parent != NULL && node == parent->left) {
+        node = parent;
+        parent = parent->parent;
+    }
+
+    return parent;
 }
 
 
@@ -71,6 +100,9 @@ void bs_tree_node_delete(BSTreeNode *node) {
 }
 
 
+void *bs_tree_node_get(BSTreeNode *node) {
+    return node->item;
+}
 
 struct BSTree {
     BSTreeNode *root;
@@ -117,7 +149,7 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
 /*
  * replace node n as children of n->parent with m
  */
-void bs_tree_transpliant(BSTree *tree, BSTreeNode *n, BSTreeNode *m) {
+void transplant(BSTree *tree, BSTreeNode *n, BSTreeNode *m) {
     if (n->parent == NULL) {
         tree->root = m;
     } else if (n == n->parent->left) {
@@ -126,7 +158,33 @@ void bs_tree_transpliant(BSTree *tree, BSTreeNode *n, BSTreeNode *m) {
         n->parent->right = m;
     }
 
-    m->parent = n->parent;
+    if (m != NULL) {
+        m->parent = n->parent;
+    }
+}
+
+
+void bs_tree_remove(BSTree *tree, BSTreeNode* node) {
+    if (node->left == NULL) {
+        transplant(tree, node, node->right);
+    } else if (node->right == NULL) {
+        transplant(tree, node, node->left);
+    } else {
+        BSTreeNode *min = bs_tree_node_min(node->right);
+        if (min != node->right) {
+            transplant(tree, min, min->right);
+            min->right = node->right;
+            node->right->parent = min;
+        }
+        transplant(tree, node, min);
+        min->left = node->left;
+        node->left->parent = min;
+    }
+
+    node->left = NULL;
+    node->right = NULL;
+
+    bs_tree_node_delete(node);
 }
 
 
