@@ -78,7 +78,7 @@ void bs_tree_node_inorder_walk(BSTreeNode *node, void (*procedure)(void *));
 /*
  * Return a pointer to the item stored in the given node
  */
-void *bs_tree_node_get(BSTreeNode* node);
+void *bs_tree_node_get(const BSTreeNode* node);
 
 
 /*
@@ -112,7 +112,7 @@ BSTree *bs_tree_new(int (*compare)(void*, void*));
  * Return a pointer to the root node of the binary
  * search tree.
  */
-BSTreeNode *bs_tree_root(BSTree *tree);
+BSTreeNode *bs_tree_root(const BSTree *tree);
 
 
 /*

@@ -12,6 +12,12 @@ struct BSTreeNode {
 };
 
 
+struct BSTree {
+    BSTreeNode *root;
+    int (*compare)(void *, void*);
+};
+
+
 BSTreeNode *bs_tree_node_new(void *item, void (*free_callback)(void*)) {
     BSTreeNode *node = malloc(sizeof(BSTreeNode));
     if (node == NULL) {
@@ -27,7 +33,6 @@ BSTreeNode *bs_tree_node_new(void *item, void (*free_callback)(void*)) {
 
     return node;
 }
-
 
 
 BSTreeNode *bs_tree_node_min(BSTreeNode *node) {
@@ -85,6 +90,11 @@ void bs_tree_node_inorder_walk(BSTreeNode *node, void (*procedure)(void *)) {
 }
 
 
+void *bs_tree_node_get(const BSTreeNode *node) {
+    return node->item;
+}
+
+
 void bs_tree_node_delete(BSTreeNode *node) {
     if (node != NULL) {
 
@@ -98,16 +108,6 @@ void bs_tree_node_delete(BSTreeNode *node) {
         free(node);
     }
 }
-
-
-void *bs_tree_node_get(BSTreeNode *node) {
-    return node->item;
-}
-
-struct BSTree {
-    BSTreeNode *root;
-    int (*compare)(void *, void*);
-};
 
 
 BSTree *bs_tree_new(int (*compare)(void *, void*)) {
@@ -128,8 +128,6 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
     BSTreeNode *cur_parent = NULL;
     while (cur) {
         cur_parent = cur;
-
-        // node->item < cur->item
         if (tree->compare(node->item, cur->item) > 0) {
             cur = cur->left;
         } else {
@@ -150,7 +148,7 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
 /*
  * replace node n as children of n->parent with m
  */
-void transplant(BSTree *tree, BSTreeNode *n, BSTreeNode *m) {
+static void transplant(BSTree *tree, BSTreeNode *n, BSTreeNode *m) {
     if (n->parent == NULL) {
         tree->root = m;
     } else if (n == n->parent->left) {
@@ -187,7 +185,7 @@ void bs_tree_remove(BSTree *tree, BSTreeNode* node) {
 }
 
 
-BSTreeNode *bs_tree_root(BSTree *tree) {
+BSTreeNode *bs_tree_root(const BSTree *tree) {
     return tree->root;
 }
 
