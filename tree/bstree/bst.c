@@ -1,5 +1,7 @@
 #include<stdlib.h>
 #include<stdbool.h>
+#include<stdint.h>
+#include<time.h>
 
 #include "bst.h"
 
@@ -9,8 +11,6 @@ struct BSTreeNode {
     struct BSTreeNode *left;
     struct BSTreeNode *right;
 
-    bool b;
-    
     void (*free_callback)(void*);
 };
 
@@ -31,8 +31,6 @@ BSTreeNode *bs_tree_node_new(void *item, void (*free_callback)(void*)) {
     node->parent = NULL;
     node->left = NULL;
     node->right = NULL;
-    node->b = false;
-
 
     node->free_callback = free_callback;
 
@@ -128,9 +126,18 @@ BSTree *bs_tree_new(int (*compare)(void *, void*)) {
 }
 
 
+static bool rnd_bool() {
+    struct timespec time;
+    clock_gettime(CLOCK_REALTIME, &time);
+    srand48(time.tv_sec * 1000000000L + time.tv_nsec);
+    return lrand48() / (INT32_MAX / 2);
+}
+
+
 void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
     BSTreeNode *cur = tree->root;
     BSTreeNode *cur_parent = NULL;
+    bool last_b;
     while (cur) {
         cur_parent = cur;
         if (tree->compare(node->item, cur->item) > 0) {
@@ -138,8 +145,8 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
         } else if (tree->compare(node->item, cur->item) < 0){
             cur = cur->right;
         } else {
-            cur->b = !(cur->b);
-            cur = cur->b ? cur->left : cur->right;
+            last_b = rnd_bool();
+            cur = last_b ? cur->left : cur->right;
         }
     }
     if (cur_parent == NULL) {
@@ -149,8 +156,7 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
     } else if (tree->compare(node->item, cur_parent->item) < 0) {
         cur_parent->right = node;
     } else {
-        cur_parent->b ? 
-            (cur_parent->left = node) : 
+        last_b ? (cur_parent->left = node) :
             (cur_parent->right = node);
     }
     node->parent = cur_parent;
