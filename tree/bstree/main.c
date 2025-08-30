@@ -1,6 +1,8 @@
 #include<stdlib.h>
 #include<stdio.h>
 
+#include<time.h>
+
 #include "bst.h"
 
 
@@ -13,34 +15,40 @@ void print_int (int *a) {
 }
 
 
-int main(void) {
-    int a = 10;
-    int b = 30;
-    int c = -330;
-    int d = 0;
+long long timediff(struct timespec* end, struct timespec* start) {
+    return (end->tv_sec - start->tv_sec) * 1000000000LL + 
+        (end->tv_nsec - start->tv_nsec);
+}
 
-    BSTreeNode *n1 = bs_tree_node_new(&a, NULL);
-    BSTreeNode *n2 = bs_tree_node_new(&b, NULL);
-    BSTreeNode *n3 = bs_tree_node_new(&c, NULL);
-    BSTreeNode *n4 = bs_tree_node_new(&d, NULL);
+
+void test_asymptotic_insert(long n) {
+    struct timespec start;
+    struct timespec end;
 
     BSTree *bst = bs_tree_new((int (*)(void *, void*))int_cmp);
 
-    bs_tree_insert(bst, n1);
-    bs_tree_insert(bst, n2);
-    bs_tree_insert(bst, n3);
-    bs_tree_insert(bst, n4);
+    BSTreeNode **nodes = malloc(sizeof(BSTreeNode*) * n);
+    for (long i = 0; i < n; i++) {
+        int *j = calloc(1, sizeof(int));
+        nodes[i] = bs_tree_node_new(j, free);
+    }
 
+    clock_gettime(CLOCK_MONOTONIC, &start);
 
-    bs_tree_remove(bst, n3);
-    bs_tree_remove(bst, n2);
+    for (long i = 0; i < n; i++) {
+        bs_tree_insert(bst, nodes[i]);
+    }
 
-    bs_tree_node_delete(n3);
-    bs_tree_node_delete(n2);
+    clock_gettime(CLOCK_MONOTONIC, &end);
 
-    bs_tree_node_inorder_walk(bs_tree_root(bst),(void (*)(void *))print_int);
-    putchar('\n');
+    printf("Elapsed: %lld\n", timediff(&end, &start));
 
     bs_tree_delete(bst);
-    bs_tree_node_delete(n1);
+    bs_tree_node_delete(nodes[0]);
+    free(nodes);
+}
+
+
+int main(void) {
+    test_asymptotic_insert(1000000);
 }

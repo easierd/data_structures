@@ -1,4 +1,5 @@
 #include<stdlib.h>
+#include<stdbool.h>
 
 #include "bst.h"
 
@@ -7,6 +8,8 @@ struct BSTreeNode {
     struct BSTreeNode *parent;
     struct BSTreeNode *left;
     struct BSTreeNode *right;
+
+    bool b;
     
     void (*free_callback)(void*);
 };
@@ -28,6 +31,8 @@ BSTreeNode *bs_tree_node_new(void *item, void (*free_callback)(void*)) {
     node->parent = NULL;
     node->left = NULL;
     node->right = NULL;
+    node->b = false;
+
 
     node->free_callback = free_callback;
 
@@ -130,16 +135,23 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
         cur_parent = cur;
         if (tree->compare(node->item, cur->item) > 0) {
             cur = cur->left;
-        } else {
+        } else if (tree->compare(node->item, cur->item) < 0){
             cur = cur->right;
+        } else {
+            cur->b = !(cur->b);
+            cur = cur->b ? cur->left : cur->right;
         }
     }
     if (cur_parent == NULL) {
         tree->root = node;
     } else if (tree->compare(node->item, cur_parent->item) > 0) {
        cur_parent->left = node;
-    } else {
+    } else if (tree->compare(node->item, cur_parent->item) < 0) {
         cur_parent->right = node;
+    } else {
+        cur_parent->b ? 
+            (cur_parent->left = node) : 
+            (cur_parent->right = node);
     }
     node->parent = cur_parent;
 }
