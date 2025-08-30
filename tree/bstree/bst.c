@@ -146,7 +146,7 @@ void bs_tree_insert(BSTree *tree, BSTreeNode* node) {
 
 
 /*
- * replace node n as children of n->parent with m
+ * replace node n as a child of n->parent with m
  */
 static void transplant(BSTree *tree, BSTreeNode *n, BSTreeNode *m) {
     if (n->parent == NULL) {
