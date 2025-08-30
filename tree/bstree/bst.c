@@ -184,8 +184,6 @@ void bs_tree_remove(BSTree *tree, BSTreeNode* node) {
 
     node->left = NULL;
     node->right = NULL;
-
-    bs_tree_node_delete(node);
 }
 
 
@@ -195,6 +193,5 @@ BSTreeNode *bs_tree_root(BSTree *tree) {
 
 
 void bs_tree_delete(BSTree *bst) {
-    bs_tree_node_delete(bst->root);
     free(bst);
 }  

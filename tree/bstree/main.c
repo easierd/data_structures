@@ -35,9 +35,12 @@ int main(void) {
     bs_tree_remove(bst, n3);
     bs_tree_remove(bst, n2);
 
+    bs_tree_node_delete(n3);
+    bs_tree_node_delete(n2);
 
     bs_tree_node_inorder_walk(bs_tree_root(bst),(void (*)(void *))print_int);
     putchar('\n');
 
     bs_tree_delete(bst);
+    bs_tree_node_delete(n1);
 }
