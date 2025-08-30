@@ -189,8 +189,8 @@ void bs_tree_remove(BSTree *tree, BSTreeNode* node) {
 }
 
 
-void bs_tree_inorder_walk(BSTree *tree, void (*procedure)(void *)) {
-    bs_tree_node_inorder_walk(tree->root, procedure);
+BSTreeNode *bs_tree_root(BSTree *tree) {
+    return tree->root;
 }
 
 
